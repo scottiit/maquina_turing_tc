@@ -7,8 +7,9 @@ branco = 'E'
 # (estado_atual, simbolo_lido) -> (novo_estado, novo_simbolo, direcao)
 transicoes = {
     ('q0', '*'): ('q1', '*', 'R'),
-    ('q1', 'a'): ('q1', 'a', 'R'),
-    ('q1', 'E'): ('q_aceita', 'E', 'L') 
+    ('q1', 'a'): ('q2', 'a', 'R'), # OBRIGA a ler pelo menos um 'a' para ir pro q2
+    ('q2', 'a'): ('q2', 'a', 'R'), # q2 permite ler infinitos outros 'a's
+    ('q2', 'E'): ('q_aceita', 'E', 'L') 
 }
 
 transicoes_paridade = {
@@ -30,9 +31,10 @@ transicoes_paridade = {
 transicoes_an_bn = {
     ('q0', '*'): ('q1', '*', 'R'),
     
-    # q1: Procura 'a' para transformar em 'X'
+# q1: Procura 'a' para transformar em 'X'
+    ('q1', 'E'): ('q_aceita', 'E', 'R'), # Se ler o vazio logo de cara (n=0), ACEITA
     ('q1', 'a'): ('q2', 'X', 'R'),
-    ('q1', 'Y'): ('q4', 'Y', 'R'), # Acabaram os 'a's, vai verificar o resto
+    ('q1', 'Y'): ('q4', 'Y', 'R'),
     
     # q2: Viaja para a direita até achar um 'b'
     ('q2', 'a'): ('q2', 'a', 'R'),
